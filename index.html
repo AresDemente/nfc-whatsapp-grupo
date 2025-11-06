@@ -51,7 +51,29 @@
   <p class="note warn">⚠️ Importante: Por restricciones de WhatsApp, no se puede enviar el texto automáticamente. Esta página copia el mensaje y abre el grupo para que tú lo pegues.</p>
 
   <script>
-    // ✅ Enlace directo a tu grupo de WhatsApp
     const enlaceGrupo = "https://chat.whatsapp.com/FdFYefqCuRz8wKaAQkfXHb?mode=wwt";
+    const mensaje = "¡Hola grupo! Este mensaje fue enviado desde mi tag NFC 😎📲";
 
-    // ✅ Mens
+    const btn = document.getElementById("btnEnviar");
+
+    btn.addEventListener("click", () => {
+      // Copiar el mensaje (sin esperar confirmación)
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(mensaje).then(() => {
+          alert("✅ Mensaje copiado al portapapeles.\nAhora se abrirá el grupo de WhatsApp.");
+          // Redirigir inmediatamente al grupo
+          window.location.href = enlaceGrupo;
+        }).catch(() => {
+          // Si no se puede copiar automáticamente
+          alert("No se pudo copiar automáticamente. Pega este mensaje manualmente:\n\n" + mensaje);
+          window.location.href = enlaceGrupo;
+        });
+      } else {
+        // Si el navegador no soporta clipboard API
+        alert("Tu navegador no permite copiar automáticamente. Copia este mensaje:\n\n" + mensaje);
+        window.location.href = enlaceGrupo;
+      }
+    });
+  </script>
+</body>
+</html>
