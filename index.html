@@ -2,76 +2,99 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
+  <meta name="robots" content="noindex, nofollow">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Mensaje Automático al Grupo de WhatsApp</title>
+  <title>Enviar mensaje al grupo - NFC</title>
   <style>
-    body {
+    /* Estilos base y fondo */
+    html, body {
+      height: 100%;
+      margin: 0;
       font-family: Arial, sans-serif;
-      background-color: #e8f5e9;
+    }
+
+    /* Imagen de fondo: cambia 'fondo.jpg' por el nombre de tu archivo (o URL externa) */
+    body {
+      background-image: url('fondo.jpg');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+    }
+
+    /* Capa oscura para mejorar legibilidad */
+    .overlay {
+      background: rgba(0,0,0,0.45);
+      padding: 28px;
+      border-radius: 12px;
+      max-width: 520px;
+      width: calc(100% - 40px);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
       text-align: center;
-      padding: 40px;
-      color: #1b5e20;
     }
-    h1 {
-      color: #2e7d32;
-    }
-    .button {
-      background-color: #25d366;
-      color: white;
-      padding: 15px 30px;
-      border: none;
-      border-radius: 10px;
-      font-size: 18px;
-      cursor: pointer;
-      margin-top: 20px;
-      text-decoration: none;
+
+    h1 { margin: 0 0 10px 0; font-size: 22px; color: #e6fff2; }
+    p { margin: 6px 0 14px 0; color: #e9f7ee; }
+
+    .btn {
       display: inline-block;
+      background: #25D366;
+      color: #fff;
+      padding: 12px 20px;
+      border-radius: 10px;
+      text-decoration: none;
+      font-weight: 600;
+      border: none;
+      cursor: pointer;
+      font-size: 16px;
     }
-    .button:hover {
-      background-color: #128c7e;
-    }
-    .note {
-      margin-top: 25px;
-      font-size: 15px;
-      color: #2e7d32;
-    }
-    .warn {
-      color: #c62828;
-      font-weight: bold;
+    .btn:hover { background: #128c7e; }
+
+    .small { font-size: 13px; color: #d7efda; margin-top: 10px; }
+    .warn { color: #ffd6d6; font-weight:700; margin-top:8px; }
+
+    /* Responsivo */
+    @media (max-width:420px) {
+      .overlay { padding:18px; }
+      h1 { font-size: 18px; }
+      .btn { width: 100%; padding: 12px; }
     }
   </style>
 </head>
 <body>
-  <h1>📱 Enviar mensaje al grupo de WhatsApp</h1>
-  <p>Haz clic en el botón para abrir el grupo y copiar automáticamente el mensaje.</p>
+  <div class="overlay">
+    <h1>📱 Enviar mensaje al grupo</h1>
+    <p>Pulsa el botón para abrir el grupo y copiar el mensaje al portapapeles.</p>
 
-  <button class="button" id="btnEnviar">Abrir grupo y copiar mensaje</button>
+    <button class="btn" id="sendBtn">Abrir grupo y copiar mensaje</button>
 
-  <p class="note">Si ya eres miembro del grupo: al abrirlo, pega (<b>Ctrl+V</b> o mantén pulsado y selecciona “Pegar”) dentro del chat y envíalo.</p>
-  <p class="note warn">⚠️ Importante: Por restricciones de WhatsApp, no se puede enviar el texto automáticamente. Esta página copia el mensaje y abre el grupo para que tú lo pegues.</p>
+    <p class="small">Si ya eres miembro del grupo: pega (mantén pulsado → pegar) en el cuadro de texto y envía.</p>
+    <p class="warn">⚠️ No se puede enviar el mensaje automáticamente por normas de WhatsApp.</p>
+  </div>
 
   <script>
-    const enlaceGrupo = "https://chat.whatsapp.com/FdFYefqCuRz8wKaAQkfXHb?mode=wwt";
-    const mensaje = "¡Hola grupo! Este mensaje fue enviado desde mi tag NFC 😎📲";
+    // CONFIGURACIÓN - cámbialos si lo necesitas
+    const GROUP_URL = "https://chat.whatsapp.com/FdFYefqCuRz8wKaAQkfXHb?mode=wwt";
+    const MESSAGE = "¡Hola grupo! Este mensaje fue enviado desde mi tag NFC 😎📲";
 
-    const btn = document.getElementById("btnEnviar");
-
-    btn.addEventListener("click", () => {
-      // Copiar el mensaje (sin esperar confirmación)
+    document.getElementById('sendBtn').addEventListener('click', () => {
+      // Intentar copiar al portapapeles y abrir el grupo
       if (navigator.clipboard && navigator.clipboard.writeText) {
-        navigator.clipboard.writeText(mensaje).then(() => {
-          alert("✅ Mensaje copiado al portapapeles.\nAhora se abrirá el grupo de WhatsApp.");
-          // Redirigir inmediatamente al grupo
-          window.location.href = enlaceGrupo;
-        }).catch(() => {
-          // Si no se puede copiar automáticamente
-          alert("No se pudo copiar automáticamente. Pega este mensaje manualmente:\n\n" + mensaje);
-          window.location.href = enlaceGrupo;
+        navigator.clipboard.writeText(MESSAGE).then(() => {
+          // Copiado ok — abrimos el grupo
+          window.location.href = GROUP_URL;
+        }).catch((err) => {
+          // Si falla el clipboard, avisar y abrir de todas formas
+          alert("No se pudo copiar automáticamente. Copia manualmente:\n\n" + MESSAGE);
+          window.location.href = GROUP_URL;
         });
       } else {
-        // Si el navegador no soporta clipboard API
-        alert("Tu navegador no permite copiar automáticamente. Copia este mensaje:\n\n" + mensaje);
-        window.location.href = enlaceGrupo;
+        // Fallback antiguo: mostramos mensaje y abrimos
+        alert("Tu navegador no permite copiar automáticamente. Copia el mensaje manualmente:\n\n" + MESSAGE);
+        window.location.href = GROUP_URL;
       }
     });
   </script>
