@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mensaje Automático al Grupo de WhatsApp</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #e8f5e9;
+      text-align: center;
+      padding: 40px;
+      color: #1b5e20;
+    }
+    h1 {
+      color: #2e7d32;
+    }
+    .button {
+      background-color: #25d366;
+      color: white;
+      padding: 15px 30px;
+      border: none;
+      border-radius: 10px;
+      font-size: 18px;
+      cursor: pointer;
+      margin-top: 20px;
+      text-decoration: none;
+      display: inline-block;
+    }
+    .button:hover {
+      background-color: #128c7e;
+    }
+    .note {
+      margin-top: 25px;
+      font-size: 15px;
+      color: #2e7d32;
+    }
+    .warn {
+      color: #c62828;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <h1>📱 Enviar mensaje al grupo de WhatsApp</h1>
+  <p>Haz clic en el botón para abrir el grupo y copiar automáticamente el mensaje.</p>
+
+  <button class="button" id="btnEnviar">Abrir grupo y copiar mensaje</button>
+
+  <p class="note">Si ya eres miembro del grupo: al abrirlo, pega (<b>Ctrl+V</b> o mantén pulsado y selecciona “Pegar”) dentro del chat y envíalo.</p>
+  <p class="note warn">⚠️ Importante: Por restricciones de WhatsApp, no se puede enviar el texto automáticamente. Esta página copia el mensaje y abre el grupo para que tú lo pegues.</p>
+
+  <script>
+    // ✅ Enlace directo a tu grupo de WhatsApp
+    const enlaceGrupo = "https://chat.whatsapp.com/FdFYefqCuRz8wKaAQkfXHb?mode=wwt";
+
+    // ✅ Mens
